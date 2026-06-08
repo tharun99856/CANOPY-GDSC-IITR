@@ -14,4 +14,24 @@ repo from your account, and explore its file structure with an AI-powered map.
 - **Explore** — click any file node for an AI summary
 - **Search** — filter nodes by filename
 
+## Setup
+
+### Backend
+
+```bash
+cd backend
+pip install -r requirements.txt
+cp .env.example .env   # then fill in your keys
+uvicorn main:app --reload
+```
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+cp .env.local.example .env.local
+npm run dev
+```
+
 *Built for GDSC 2026.*
