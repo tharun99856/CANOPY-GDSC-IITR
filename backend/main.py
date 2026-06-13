@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv 
-import load_dotenv
+from dotenv import load_dotenv
 import github_api
 import parser
 import ai_layer
