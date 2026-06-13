@@ -39,5 +39,21 @@ def get_tree(gh_tok, owner, repo):
 
 
 def get_content(gh_tok, owner, repo, path):
-    """Fetch and decode file content. TODO: real API call."""
-    return None
+    """Fetch and decode file content. Returns utf-8 string or None."""
+    import base64
+    r = httpx.get(
+        f"{BASE}/repos/{owner}/{repo}/contents/{path}",
+        headers=HEAD(gh_tok),
+        timeout=30.0,
+    )
+    if r.status_code == 404:
+        return None
+    r.raise_for_status()
+    data = r.json()
+    b64_c = data.get("content", "")
+    if not b64_c:
+        return None
+    try:
+        return base64.b64decode(b64_c).decode("utf-8")
+    except Exception:
+        return None
