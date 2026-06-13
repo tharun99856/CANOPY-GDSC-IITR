@@ -26,8 +26,16 @@ def list_repos(gh_tok):
 
 
 def get_tree(gh_tok, owner, repo):
-    """Get recursive file tree. TODO: real API call."""
-    return []
+    """Get recursive file tree. Returns list of {path, type} blobs only."""
+    r = httpx.get(
+        f"{BASE}/repos/{owner}/{repo}/git/trees/HEAD?recursive=1",
+        headers=HEAD(gh_tok),
+        timeout=60.0,
+    )
+    r.raise_for_status()
+    data = r.json()
+    tree = data.get("tree", [])
+    return [{"path": t["path"], "type": t["type"]} for t in tree if t["type"] == "blob"]
 
 
 def get_content(gh_tok, owner, repo, path):
