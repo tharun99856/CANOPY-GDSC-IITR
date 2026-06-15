@@ -91,10 +91,10 @@ export default function GraphCanvas({ g_data, sel_n, search_q, onNodeClick }) {
     const q = search_q.toLowerCase();
     setNodes((prev) =>
       prev.map((n) => {
-        const match = n.data.label.toLowerCase().includes(q) || n.data.fullPath.toLowerCase().includes(q);
+            const match = n.data.label.toLowerCase().includes(q) || n.data.fullPath.toLowerCase().includes(q);
         return {
           ...n,
-          data: { ...n.data, searchMatch: !match, searchDim: match },
+          data: { ...n.data, searchMatch: match, searchDim: !match },
         };
       })
     );
