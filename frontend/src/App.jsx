@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   const handleNodeClick = useCallback((node) => {
-    setSel_n((prev) => (prev?.id === node.id ? node : null));
+    setSel_n((prev) => (prev?.id === node.id ? null : node));
   }, []);
 
   return (
