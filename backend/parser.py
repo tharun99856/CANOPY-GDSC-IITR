@@ -1,3 +1,7 @@
+import re
+
+PY_RE = re.compile(r'^\s*(?:import|from)\s+([\w.]+)')
+
 EXT_MAP = {
     ".py": "py",
     ".js": "js",
@@ -16,10 +20,54 @@ def _ext_type(path):
     return "other"
 
 
+def _normalize(path):
+    parts = path.replace("\\", "/").split("/")
+    out = []
+    for p in parts:
+        if p == ".":
+            continue
+        elif p == ".." and out:
+            out.pop()
+        else:
+            out.append(p)
+    return "/".join(out)
+
+
+def _resolve_py(src_path, module, all_paths):
+    src_dir = src_path.rsplit("/", 1)[0] if "/" in src_path else ""
+    module_path = module.replace(".", "/")
+
+    candidates = []
+    if src_dir:
+        candidates.append(f"{src_dir}/{module_path}.py")
+        candidates.append(f"{src_dir}/{module_path}/__init__.py")
+    candidates.append(f"{module_path}.py")
+    candidates.append(f"{module_path}/__init__.py")
+
+    for c in candidates:
+        n = _normalize(c)
+        if n in all_paths:
+            return n
+    return None
+
+
 def parse(f_map):
+    all_paths = set(f_map.keys())
     nodes = []
     edges = []
+    seen = set()
+
     for path, content in f_map.items():
         loc_c = len(content.splitlines())
         nodes.append({"id": path, "loc": loc_c, "type": _ext_type(path)})
+
+        if path.endswith(".py"):
+            for line in content.splitlines():
+                m = PY_RE.match(line)
+                if m:
+                    tgt = _resolve_py(path, m.group(1), all_paths)
+                    if tgt and tgt != path and (path, tgt) not in seen:
+                        seen.add((path, tgt))
+                        edges.append({"src": path, "tgt": tgt})
+
     return {"nodes": nodes, "edges": edges}
