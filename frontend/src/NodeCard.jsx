@@ -20,10 +20,8 @@ const NodeCard = memo(function NodeCard({ data, selected }) {
   if (searchDim) cls += " search-dim";
 
   return (
-    <div className={cls} style={{ "--node-type-color": color }}>
-      <Handle type="target" position={Position.Left} style={{ opacity: 0, width: 6, height: 6 }} />
-      <div className="node-filename" title={label}>
-        {fullPath}
+          <div className="node-filename" title={label}>
+        {label}
       </div>
       <span className="loc-badge">{loc} lines</span>
       <Handle type="source" position={Position.Right} style={{ opacity: 0, width: 6, height: 6 }} />
