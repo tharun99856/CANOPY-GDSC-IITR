@@ -186,6 +186,19 @@ code, .filename, .loc-badge {
   margin-top: 4px;
 }
 
+.local-scan {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 14px;
+  margin-top: 4px;
+}
+
+.scan-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-top: 2px;
+}
+
 .warn-msg {
   color: var(--warn);
   font-size: 12px;
