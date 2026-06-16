@@ -27,7 +27,7 @@ function App() {
   return (
     <div className="app-shell">
       <div className="topbar">
-        <span className="logo">canopy</span>
+        <span className="logo">Canopy</span>
         {repo_name && (
           <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>
             {repo_owner}/{repo_name}
@@ -53,10 +53,12 @@ function App() {
           </>
         ) : (
           <div className="empty-state">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5">
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
             </svg>
-            <span>Connect to GitHub to visualize a repository</span>
+            <h1 className="entry-title">Canopy</h1>
+            <p className="entry-headline">See your codebase from above.</p>
+            <span>Connect to GitHub or scan a local folder to begin</span>
           </div>
         )}
       </div>

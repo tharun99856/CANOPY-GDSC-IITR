@@ -481,9 +481,23 @@ code, .filename, .loc-badge {
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 12px;
+  gap: 8px;
   color: var(--text-muted);
   font-size: 14px;
+}
+
+.entry-title {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+  margin-top: 6px;
+}
+
+.entry-headline {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
 }
 
 .loading-spinner {
