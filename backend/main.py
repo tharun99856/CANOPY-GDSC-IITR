@@ -98,6 +98,22 @@ def load_local(body: dict):
     return dep_g
 
 
+@app.post("/load-files")
+def load_files(body: dict):
+    files = body.get("files") or {}
+    f_map = {k: v for k, v in files.items() if utils.is_allowed(k)}
+
+    if not f_map:
+        return {"error": "No parseable files found in this folder."}
+
+    if len(f_map) > 300:
+        return {"error": f"Folder has {len(f_map)} parseable files (cap is 300). Try a smaller folder."}
+
+    dep_g = parser.parse(f_map)
+    dep_g["_content"] = {k: v[:6000] for k, v in f_map.items()}
+    return dep_g
+
+
 @app.post("/summarise")
 def summarise(body: dict):
     f_name = body.get("f_name", "")
