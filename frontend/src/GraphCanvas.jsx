@@ -117,9 +117,10 @@ export default function GraphCanvas({ g_data, sel_n, search_q, onNodeClick }) {
         onNodeClick={handleNodeClick}
         nodeTypes={nodeTypes}
         fitView
-        fitViewOptions={{ padding: 0.2 }}
-        minZoom={0.1}
+        fitViewOptions={{ padding: 0.2, minZoom: 0.5, maxZoom: 1 }}
+        minZoom={0.2}
         maxZoom={2}
+        panOnScroll
         proOptions={{ hideAttribution: true }}
       >
         <Background color="var(--border)" gap={20} size={1} />
