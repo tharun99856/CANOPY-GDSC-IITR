@@ -22,3 +22,25 @@ def test_line_of_code_count():
     graph = parser.parse({"a.py": "x = 1\ny = 2\nz = 3\n"})
     nodes = _nodes_by_id(graph)
     assert nodes["a.py"]["loc"] == 3
+
+
+def _edges(graph):
+    return {(e["src"], e["tgt"]) for e in graph["edges"]}
+
+
+def test_python_import_resolves_to_edge():
+    graph = parser.parse({"main.py": "import helper\n", "helper.py": "x = 1\n"})
+    assert ("main.py", "helper.py") in _edges(graph)
+
+
+def test_js_relative_import_resolves_to_edge():
+    graph = parser.parse({
+        "src/App.jsx": "import Foo from './Foo'\n",
+        "src/Foo.jsx": "export default 1\n",
+    })
+    assert ("src/App.jsx", "src/Foo.jsx") in _edges(graph)
+
+
+def test_bare_package_import_is_ignored():
+    graph = parser.parse({"src/App.jsx": "import React from 'react'\n"})
+    assert graph["edges"] == []
