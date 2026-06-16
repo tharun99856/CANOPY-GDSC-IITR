@@ -20,6 +20,18 @@ export async function loadRepo(owner, repo, token) {
   return data;
 }
 
+export async function loadLocal(path) {
+  const r = await fetch(`${BASE}/load-local`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ path }),
+  });
+  if (!r.ok) throw new Error("Failed to scan folder");
+  const data = await r.json();
+  if (data.error) throw new Error(data.error);
+  return data;
+}
+
 export async function fetchSummary(f_name, content) {
   const r = await fetch(`${BASE}/summarise`, {
     method: "POST",
