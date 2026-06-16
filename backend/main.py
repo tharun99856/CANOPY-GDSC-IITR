@@ -5,6 +5,7 @@ import github_api
 import parser
 import ai_layer
 import utils
+import local_fs
 
 load_dotenv()
 
@@ -63,6 +64,32 @@ def load_repo(body: dict):
 
     dep_g = parser.parse(f_map)
     # Include raw content for the AI summary layer
+    dep_g["_content"] = {k: v[:6000] for k, v in f_map.items()}
+    return dep_g
+
+
+@app.post("/load-local")
+def load_local(body: dict):
+    path = body.get("path")
+    max_files = body.get("max_files", 300)
+
+    if not path:
+        return {"error": "path is required."}
+
+    try:
+        f_map, hit_cap = local_fs.read_dir(path, max_files)
+    except FileNotFoundError as e:
+        return {"error": str(e)}
+    except Exception as e:
+        return {"error": f"Failed to read directory: {e}"}
+
+    if hit_cap:
+        return {"error": f"Folder has more than {max_files} parseable files. Try a smaller folder."}
+
+    if not f_map:
+        return {"error": "No parseable files found in this folder."}
+
+    dep_g = parser.parse(f_map)
     dep_g["_content"] = {k: v[:6000] for k, v in f_map.items()}
     return dep_g
 
