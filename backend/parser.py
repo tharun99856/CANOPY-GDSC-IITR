@@ -13,6 +13,8 @@ EXT_MAP = {
     ".cjs": "js",
 }
 
+JS_EXTS = (".js", ".ts", ".tsx", ".jsx", ".mjs", ".cjs")
+
 
 def _ext_type(path):
     for ext, t in EXT_MAP.items():
@@ -59,7 +61,7 @@ def _resolve_js(src_path, imp, all_paths):
     src_dir = src_path.rsplit("/", 1)[0] if "/" in src_path else ""
     base = _normalize(f"{src_dir}/{imp}" if src_dir else imp)
 
-    for ext in ("", ".js", ".ts", ".tsx", ".jsx", ".mjs", ".cjs"):
+    for ext in ("",) + JS_EXTS:
         if (base + ext) in all_paths:
             return base + ext
 
@@ -89,7 +91,7 @@ def parse(f_map):
                         seen.add((path, tgt))
                         edges.append({"src": path, "tgt": tgt})
 
-        elif any(path.endswith(e) for e in (".js", ".ts", ".tsx", ".jsx", ".mjs", ".cjs")):
+        elif any(path.endswith(e) for e in JS_EXTS):
             for line in content.splitlines():
                 for m in JS_RE.finditer(line):
                     tgt = _resolve_js(path, m.group(1), all_paths)
