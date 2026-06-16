@@ -3,6 +3,7 @@ import GithubConnect from "./GithubConnect";
 import GraphCanvas from "./GraphCanvas";
 import SidePanel from "./SidePanel";
 import SearchBar from "./SearchBar";
+import LocalScan from "./LocalScan";
 
 function App() {
   const [g_data, setG_data] = useState(null);
@@ -36,6 +37,7 @@ function App() {
 
       <div className="sidebar">
         <GithubConnect onGraphLoaded={handleGraphLoaded} />
+        <LocalScan onGraphLoaded={handleGraphLoaded} />
       </div>
 
       <div className="canvas-area">
