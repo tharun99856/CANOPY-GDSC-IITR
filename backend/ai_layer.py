@@ -1,24 +1,27 @@
-# gemini calls
+# groq calls
 import hashlib
 import os
-import google.generativeai as genai
+from groq import Groq
 
-genai.configure(api_key=os.getenv("GEMINI_KEY"))
-model = genai.GenerativeModel("gemini-1.5-flash")
+MODEL = "llama-3.3-70b-versatile"
 
+_client = None
 ai_cache = {}  # md5_hash -> summary string
 
-PROMPT = """You are a senior developer doing a quick code review pass.
-Given the file below from a software project, write exactly 3 sentences:
+SYSTEM_PROMPT = """You are a senior developer doing a quick code review pass.
+Given a file from a software project, write exactly 3 sentences:
 1. What this file's primary responsibility is
 2. What it depends on or what depends on it
 3. One thing a new developer should know before modifying it
 
-No preamble. No "Sure, here's the summary". Just the 3 sentences.
+No preamble. No "Sure, here's the summary". Just the 3 sentences."""
 
-File: {f_name}
----
-{content}"""
+
+def _get_client():
+    global _client
+    if _client is None:
+        _client = Groq(api_key=os.getenv("GROQ_KEY"))
+    return _client
 
 
 def summarise(f_name, content):
@@ -26,10 +29,15 @@ def summarise(f_name, content):
     if h in ai_cache:
         return ai_cache[h]
     try:
-        resp = model.generate_content(
-            PROMPT.format(f_name=f_name, content=content[:6000])
+        resp = _get_client().chat.completions.create(
+            model=MODEL,
+            messages=[
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": f"File: {f_name}\n---\n{content[:6000]}"},
+            ],
+            temperature=0.3,
         )
-        result = resp.text.strip()
+        result = resp.choices[0].message.content.strip()
     except Exception:
         result = "Summary unavailable (rate limit or error). Try again in a moment."
     ai_cache[h] = result
