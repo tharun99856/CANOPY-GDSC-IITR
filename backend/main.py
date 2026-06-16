@@ -55,4 +55,4 @@ def summarise(body: dict):
     content = body.get("content", "")
     if not content:
         return {"summary": "No content provided."}
-    return {"summary": ai_layer.summarize(f_name, content)}
+    return {"summary": ai_layer.summarise(f_name, content)}
