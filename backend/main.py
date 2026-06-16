@@ -34,7 +34,12 @@ def load_repo(body: dict):
     repo = body.get("repo")
     max_files = body.get("max_files", 300)
 
-    tree = github_api.get_tree(gh_tok, owner, repo)
+    try:
+        tree = github_api.get_tree(gh_tok, owner, repo)
+    except Exception as e:
+        return {"error": f"Failed to fetch tree: {e}"}
+
+    # Filter to parseable files only
     blobs = [t for t in tree if utils.is_allowed(t["path"])]
 
     if len(blobs) > max_files:
