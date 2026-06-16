@@ -37,6 +37,12 @@ def load_repo(body: dict):
     tree = github_api.get_tree(gh_tok, owner, repo)
     blobs = [t for t in tree if utils.is_allowed(t["path"])]
 
+    if len(blobs) > max_files:
+        return {
+            "error": f"Repo has {len(blobs)} parseable files (cap is {max_files}). "
+            "This tool works best with repos under 300 files."
+        }
+
     f_map = {}
     for item in blobs:
         path = item["path"]
