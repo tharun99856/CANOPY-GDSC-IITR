@@ -32,6 +32,18 @@ export async function loadLocal(path) {
   return data;
 }
 
+export async function loadFiles(files) {
+  const r = await fetch(`${BASE}/load-files`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ files }),
+  });
+  if (!r.ok) throw new Error("Failed to scan folder");
+  const data = await r.json();
+  if (data.error) throw new Error(data.error);
+  return data;
+}
+
 export async function fetchSummary(f_name, content) {
   const r = await fetch(`${BASE}/summarise`, {
     method: "POST",
