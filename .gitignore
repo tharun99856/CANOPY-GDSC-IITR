@@ -1,5 +1,13 @@
-/backend/.env
-node_modules
-__pycache__
-.env.local
+__pycache__/
 *.pyc
+.env
+.DS_Store
+node_modules/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+env.local
