@@ -50,7 +50,12 @@ def load_repo(body: dict):
         if content is not None:
             f_map[path] = content
 
+    if not f_map:
+        return {"error": "No parseable files found in this repo."}
+
     dep_g = parser.parse(f_map)
+    # Include raw content for the AI summary layer
+    dep_g["_content"] = {k: v[:6000] for k, v in f_map.items()}
     return dep_g
 
 
