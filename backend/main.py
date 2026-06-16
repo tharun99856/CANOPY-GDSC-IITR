@@ -34,6 +34,9 @@ def load_repo(body: dict):
     repo = body.get("repo")
     max_files = body.get("max_files", 300)
 
+    if not gh_tok or not owner or not repo:
+        return {"error": "token, owner and repo are required."}
+
     try:
         tree = github_api.get_tree(gh_tok, owner, repo)
     except Exception as e:
