@@ -1,37 +1,24 @@
 # Canopy
 
-> See your codebase from above.
-
-Canopy is a self-hosted tool that visualizes your GitHub repositories as
-interactive dependency graphs. Paste a GitHub Personal Access Token, pick any
-repo from your account, and explore its file structure with an AI-powered map.
-
-## What it does
-
-- **Connect** to GitHub with a Personal Access Token
-- **Browse** your repos and pick one to analyse
-- **Visualise** the dependency graph — files as nodes, imports as edges
-- **Explore** — click any file node for an AI summary
-- **Search** — filter nodes by filename
+See your codebase from above. Canopy turns a GitHub repo into an interactive
+dependency graph and uses AI to summarise each file.
 
 ## Setup
 
-### Backend
+Backend:
 
-```bash
-cd backend
-pip install -r requirements.txt
-cp .env.example .env   # then fill in your keys
-uvicorn main:app --reload
-```
+    cd backend
+    pip install -r requirements.txt
+    cp .env.example .env   # add your GEMINI_KEY
+    uvicorn main:app --reload
 
-### Frontend
+Frontend:
 
-```bash
-cd frontend
-npm install
-cp .env.local.example .env.local
-npm run dev
-```
+    cd frontend
+    npm install
+    cp .env.local.example .env.local
+    npm run dev
 
-*Built for GDSC 2026.*
+You need a GitHub personal access token (repo scope) and a Gemini API key.
+
+Built for GDSC 2026.
