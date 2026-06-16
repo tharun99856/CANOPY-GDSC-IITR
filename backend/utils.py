@@ -5,7 +5,6 @@ ALLOWED = {".py", ".js", ".ts", ".tsx", ".jsx", ".mjs", ".cjs"}
 
 
 def b64_decode(b64_s):
-    """Decode a base64 string to utf-8 text. Returns None on failure."""
     try:
         return base64.b64decode(b64_s).decode("utf-8")
     except Exception:
@@ -13,11 +12,10 @@ def b64_decode(b64_s):
 
 
 def is_allowed(path):
-    """Check if a file path has a parseable extension."""
     for ext in ALLOWED:
         if path.endswith(ext):
             return True
-        return False
+    return False
 
 
 def clean_path(path):
