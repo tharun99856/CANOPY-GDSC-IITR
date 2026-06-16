@@ -1,3 +1,7 @@
+canopy-gdsc-iitr-production.up.railway.app   - backend 
+https://canopy-gdsc-iitr.vercel.app/ - frontend 
+
+
 # Canopy
 
 See your codebase from above. Canopy turns a GitHub repo into an interactive
