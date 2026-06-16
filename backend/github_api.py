@@ -1,5 +1,6 @@
 # github api calls
 import httpx
+import utils
 
 BASE = "https://api.github.com"
 HEAD = lambda tok: {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
@@ -40,7 +41,6 @@ def get_tree(gh_tok, owner, repo):
 
 def get_content(gh_tok, owner, repo, path):
     """Fetch and decode file content. Returns utf-8 string or None."""
-    import base64
     r = httpx.get(
         f"{BASE}/repos/{owner}/{repo}/contents/{path}",
         headers=HEAD(gh_tok),
@@ -53,7 +53,4 @@ def get_content(gh_tok, owner, repo, path):
     b64_c = data.get("content", "")
     if not b64_c:
         return None
-    try:
-        return base64.b64decode(b64_c).decode("utf-8")
-    except Exception:
-        return None
+    return utils.b64_decode(b64_c)
