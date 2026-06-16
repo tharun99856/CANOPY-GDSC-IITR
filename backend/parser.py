@@ -98,3 +98,15 @@ def parse(f_map):
                         edges.append({"src": path, "tgt": tgt})
 
     return {"nodes": nodes, "edges": edges}
+
+
+if __name__ == "__main__":
+    test_map = {
+        "src/main.py": "import os\nfrom parser import parse\n\nprint('hello')\n",
+        "src/parser.py": "import re\n\ndef parse(f_map):\n    return {}\n",
+        "src/utils.py": "import hashlib\n\ndef md5(s):\n    return hashlib.md5(s.encode()).hexdigest()\n",
+        "src/App.jsx": "import React from 'react'\nimport utils from './utils'\n",
+        "src/utils.js": "export const foo = 1\n",
+    }
+    import json
+    print(json.dumps(parse(test_map), indent=2))
