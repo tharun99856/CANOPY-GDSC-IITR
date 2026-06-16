@@ -66,9 +66,7 @@ export default function SidePanel({ node, g_data }) {
       </div>
 
       <div style={{ marginTop: 16 }}>
-        <div className="meta-row" style={{ fontWeight: 600, color: "var(--text-primary)", marginBottom: 8 }}>
-          AI Summary
-        </div>
+        <div className="summary-label">AI Summary</div>
         {isLoading ? (
           <div className="summary-loading">
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
