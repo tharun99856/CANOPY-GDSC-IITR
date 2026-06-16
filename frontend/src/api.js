@@ -1,4 +1,6 @@
-const BASE = import.meta.env.VITE_BACKEND || "http://localhost:8000";
+let BASE = import.meta.env.VITE_BACKEND || "http://localhost:8000";
+if (!/^https?:\/\//.test(BASE)) BASE = "https://" + BASE;
+BASE = BASE.replace(/\/+$/, "");
 
 export async function fetchRepos(token) {
   const r = await fetch(`${BASE}/repos?token=${encodeURIComponent(token)}`);
