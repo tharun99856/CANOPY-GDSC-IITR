@@ -9,7 +9,7 @@ Backend:
 
     cd backend
     pip install -r requirements.txt
-    cp .env.example .env   # add your GEMINI_KEY
+    cp .env.example .env   # add your GROQ_KEY
     uvicorn main:app --reload
 
 Frontend:
@@ -19,6 +19,11 @@ Frontend:
     cp .env.local.example .env.local
     npm run dev
 
-You need a GitHub personal access token (repo scope) and a Gemini API key.
+You need a GitHub personal access token (repo scope) and a Groq API key.
+
+## Tests
+
+    pip install -r requirements-dev.txt
+    pytest backend/tests
 
 Built for GDSC 2026.
