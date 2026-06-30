@@ -46,11 +46,11 @@ export async function loadFiles(files) {
   return data;
 }
 
-export async function fetchSummary(f_name, content) {
+export async function fetchSummary(f_name, content, imports, imported_by) {
   const r = await fetch(`${BASE}/summarise`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ f_name, content }),
+    body: JSON.stringify({ f_name, content, imports, imported_by }),
   });
   if (!r.ok) throw new Error("Failed to fetch summary");
   const data = await r.json();
