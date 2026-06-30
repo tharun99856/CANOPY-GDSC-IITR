@@ -2,7 +2,7 @@
 
 > See your codebase from above.
 
-Canopy turns any GitHub repository into a live, interactive dependency graph. Connect with a Personal Access Token, pick a repo, and explore how every file connects to every other file — with AI-powered summaries for each node.
+Canopy turns any GitHub repository into a live, interactive dependency graph. Connect with a Personal Access Token, pick a repo, and explore how every file connects to every other file - with AI-powered summaries for each node.
 
 **Live:** [canopy-gdsc-iitr.vercel.app](https://canopy-gdsc-iitr.vercel.app/)
 **Backend:** [canopy-gdsc-iitr-production.up.railway.app](https://canopy-gdsc-iitr-production.up.railway.app)
@@ -11,11 +11,11 @@ Canopy turns any GitHub repository into a live, interactive dependency graph. Co
 
 ## What it does
 
-1. **Connect** — paste a GitHub PAT, your repos load instantly
-2. **Pick** — select any repo from your account (public or private)
-3. **Visualize** — file nodes laid out left-to-right by dependency depth, edges showing import direction
-4. **Explore** — click any node for a 3-sentence AI summary of what that file does
-5. **Search** — type a filename, matching nodes highlight, everything else dims
+1. **Connect** - paste a GitHub PAT, your repos load instantly
+2. **Pick** - select any repo from your account (public or private)
+3. **Visualize** - file nodes laid out left-to-right by dependency depth, edges showing import direction
+4. **Explore** - click any node for a 3-sentence AI summary of what that file does
+5. **Search** - type a filename, matching nodes highlight, everything else dims
 
 No cloning. No local file access. Everything runs through the GitHub API.
 
@@ -91,11 +91,11 @@ The app opens at `http://localhost:5173`.
 
 ## How it works
 
-- **`github_api.py`** — fetches repo list, file tree, and raw content via GitHub REST API
-- **`parser.py`** — extracts import edges from Python (`import`/`from`) and JS/TS (`import`/`require`) files, counts lines of code
-- **`ai_layer.py`** — sends file content to Groq for 3-sentence summaries, caches by MD5 hash
-- **`main.py`** — FastAPI with `/repos`, `/load-repo`, and `/summarise` endpoints
-- **Frontend** — react-flow canvas with dagre LR layout, custom node cards with file-type colour coding, floating search bar, side panel with AI summaries
+- **`github_api.py`** - fetches repo list, file tree, and raw content via GitHub REST API
+- **`parser.py`** - extracts import edges from Python (`import`/`from`) and JS/TS (`import`/`require`) files, counts lines of code
+- **`ai_layer.py`** - sends file content to Groq for 3-sentence summaries, caches by MD5 hash
+- **`main.py`** - FastAPI with `/repos`, `/load-repo`, and `/summarise` endpoints
+- **Frontend** - react-flow canvas with dagre LR layout, custom node cards with file-type colour coding, floating search bar, side panel with AI summaries
 
 ---
 
@@ -104,22 +104,22 @@ The app opens at `http://localhost:5173`.
 ```
 canopy/
   backend/
-    main.py             — FastAPI app, routes, CORS
-    github_api.py       — GitHub REST API calls
-    parser.py           — import extraction, LoC counter, graph builder
-    ai_layer.py         — Groq summarisation, MD5 cache
-    utils.py            — base64 decode, extension checks
+    main.py             - FastAPI app, routes, CORS
+    github_api.py       - GitHub REST API calls
+    parser.py           - import extraction, LoC counter, graph builder
+    ai_layer.py         - Groq summarisation, MD5 cache
+    utils.py            - base64 decode, extension checks
     requirements.txt
   frontend/
     src/
-      App.jsx           — root layout, global state
-      GithubConnect.jsx — PAT input, repo list, repo picker
-      GraphCanvas.jsx   — react-flow canvas + dagre layout
-      NodeCard.jsx      — custom node with type colour + LoC badge
-      SidePanel.jsx     — file info + AI summary
-      SearchBar.jsx     — floating search with highlight/dim
-      api.js            — all fetch calls
-      index.css         — full Canopy forest theme
+      App.jsx           - root layout, global state
+      GithubConnect.jsx - PAT input, repo list, repo picker
+      GraphCanvas.jsx   - react-flow canvas + dagre layout
+      NodeCard.jsx      - custom node with type colour + LoC badge
+      SidePanel.jsx     - file info + AI summary
+      SearchBar.jsx     - floating search with highlight/dim
+      api.js            - all fetch calls
+      index.css         - full Canopy forest theme
 ```
 
 ---
