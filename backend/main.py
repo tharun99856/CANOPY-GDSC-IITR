@@ -118,6 +118,8 @@ def load_files(body: dict):
 def summarise(body: dict):
     f_name = body.get("f_name", "")
     content = body.get("content", "")
+    imports = body.get("imports", [])
+    imported_by = body.get("imported_by", [])
     if not content:
         return {"summary": "No content provided."}
-    return {"summary": ai_layer.summarise(f_name, content)}
+    return {"summary": ai_layer.summarise(f_name, content, imports, imported_by)}
