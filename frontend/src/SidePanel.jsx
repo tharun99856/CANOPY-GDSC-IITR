@@ -18,6 +18,14 @@ export default function SidePanel({ node, g_data }) {
   const content = g_data._content?.[node.data.fullPath] || "";
   const typeLabel = TYPE_LABELS[node.data.type] || "File";
 
+  const imports = (g_data.edges || [])
+    .filter(e => e.src === node.data.fullPath)
+    .map(e => e.tgt.split("/").pop());
+
+  const imported_by = (g_data.edges || [])
+    .filter(e => e.tgt === node.data.fullPath)
+    .map(e => e.src.split("/").pop());
+
   useEffect(() => {
     setSummary("");
     setIsLoading(false);
@@ -31,7 +39,7 @@ export default function SidePanel({ node, g_data }) {
     debounceRef.current = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const result = await fetchSummary(node.data.fullPath, content);
+        const result = await fetchSummary(node.data.fullPath, content, imports, imported_by);
         setSummary(result);
       } catch (e) {
         setSummary("Summary unavailable. Try again in a moment.");
