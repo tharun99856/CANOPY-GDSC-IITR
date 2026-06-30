@@ -1,3 +1,6 @@
+# Canopy
+
+> See your codebase from above.
 
 Canopy turns any GitHub repository into a live, interactive dependency graph. Connect with a Personal Access Token, pick a repo, and explore how every file connects to every other file — with AI-powered summaries for each node.
 
@@ -34,52 +37,100 @@ No cloning. No local file access. Everything runs through the GitHub API.
 
 ### Backend
 
-``bash
+```bash
 cd backend
 pip install -r requirements.txt
-Create .env:
+```
 
+Create `.env` in the `backend/` directory:
+
+```env
 GROQ_KEY=your_groq_key_here
+```
+
+Start the server:
+
+```bash
 uvicorn main:app --reload
-Frontend
+```
+
+The API runs at `http://localhost:8000`.
+
+### Frontend
+
+```bash
 cd frontend
 npm install
-Create .env.local:
+```
 
+Create `.env.local` in the `frontend/` directory:
+
+```env
 VITE_BACKEND=http://localhost:8000
+```
+
+Start the dev server:
+
+```bash
 npm run dev
-GitHub PAT
-GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
-Generate new token with repo scope
-Paste it in the Canopy connect panel
-How it works
-github_api.py — fetches repo list, file tree, and raw content via GitHub REST API
-parser.py — extracts import edges from Python (import/from) and JS/TS (import/require) files, counts lines of code
-ai_layer.py — sends file content to Groq for 3-sentence summaries, caches by MD5 hash
-main.py — FastAPI with /repos, /load-repo, and /summarise endpoints
-Frontend — react-flow canvas with dagre LR layout, custom node cards with file-type colour coding, floating search bar, side panel with AI summaries
-Project Structure
+```
+
+The app opens at `http://localhost:5173`.
+
+---
+
+## GitHub PAT
+
+1. Go to GitHub → **Settings** → **Developer settings** → **Personal access tokens** → **Tokens (classic)**
+2. Click **Generate new token (classic)**
+3. Select the **`repo`** scope
+4. Generate and copy the token
+5. Paste it in the Canopy connect panel
+
+---
+
+## How it works
+
+- **`github_api.py`** — fetches repo list, file tree, and raw content via GitHub REST API
+- **`parser.py`** — extracts import edges from Python (`import`/`from`) and JS/TS (`import`/`require`) files, counts lines of code
+- **`ai_layer.py`** — sends file content to Groq for 3-sentence summaries, caches by MD5 hash
+- **`main.py`** — FastAPI with `/repos`, `/load-repo`, and `/summarise` endpoints
+- **Frontend** — react-flow canvas with dagre LR layout, custom node cards with file-type colour coding, floating search bar, side panel with AI summaries
+
+---
+
+## Project Structure
+
+```
 canopy/
   backend/
-    main.py           — FastAPI app, routes, CORS
-    github_api.py     — GitHub REST API calls
-    parser.py         — import extraction, LoC counter, graph builder
-    ai_layer.py       — Groq summarisation, MD5 cache
-    utils.py          — base64 decode, extension checks
+    main.py             — FastAPI app, routes, CORS
+    github_api.py       — GitHub REST API calls
+    parser.py           — import extraction, LoC counter, graph builder
+    ai_layer.py         — Groq summarisation, MD5 cache
+    utils.py            — base64 decode, extension checks
     requirements.txt
   frontend/
     src/
-      App.jsx         — root layout, global state
+      App.jsx           — root layout, global state
       GithubConnect.jsx — PAT input, repo list, repo picker
-      GraphCanvas.jsx — react-flow canvas + dagre layout
-      NodeCard.jsx    — custom node with type colour + LoC badge
-      SidePanel.jsx   — file info + AI summary
-      SearchBar.jsx   — floating search with highlight/dim
-      api.js          — all fetch calls
-      index.css       — full Canopy forest theme
-Limitations
-Parses Python, JS, TS, JSX, TSX only
-Repos capped at 300 parseable files
-GitHub API: 5000 req/hr with PAT
-No real-time file watching or graph export
+      GraphCanvas.jsx   — react-flow canvas + dagre layout
+      NodeCard.jsx      — custom node with type colour + LoC badge
+      SidePanel.jsx     — file info + AI summary
+      SearchBar.jsx     — floating search with highlight/dim
+      api.js            — all fetch calls
+      index.css         — full Canopy forest theme
+```
+
+---
+
+## Limitations
+
+- Parses Python, JS, TS, JSX, TSX only
+- Repos capped at 300 parseable files
+- GitHub API: 5000 req/hr with PAT
+- No real-time file watching or graph export
+
+---
+
 Built for GDSC 2026.
